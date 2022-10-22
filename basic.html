@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Calculator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+body {
+  background: #202124;
+}
+* {
+  color: #8ab4f7;
+  font-family: 'Rubik', sans-serif;
+  outline: none;
+}
+div, button {
+  user-select: none;
+  -webkit-user-select: none;
+}
+input {
+  width: 197px;
+  height: 42.5px;
+  padding: 0px;
+  background: transparent;
+  user-select: auto;
+  -webkit-user-select: auto;
+  border: none;
+  text-align: right;
+  color: #8ab4f7;
+  cursor: auto;
+}
+input::selection {
+  background: #8ab4f7;
+  color: #202124;
+}
+#calc {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 250px;
+  margin: -125px -100px;
+  background: #303134;
+  transform: scale(1.5);
+}
+#keypad {
+  position: absolute;
+  top: 50px;
+  left: 0px;
+  height: 200px;
+}
+#operations {
+  position: absolute;
+  top: 50px;
+  left: 150px;
+  height: 200px;
+}
+button {
+  height: 50px;
+  width: 48px;
+  border: none;
+  border-radius: 0px;
+  background: transparent;
+  transition: transform 0.3s;
+  padding: 0px;
+  margin: 0px;
+}
+button:hover {
+  transform: scale(1.15);
+  background: #202124;
+}
+</style>
+</head>
+<body>
+<div id="calc">
+<input type="text" placeholder="Answer">
+  <div id="keypad">
+    <button onclick="w(this.innerHTML)">1</button>
+    <button onclick="w(this.innerHTML)">2</button>
+    <button onclick="w(this.innerHTML)">3</button>
+    <button onclick="w(this.innerHTML)">4</button>
+    <button onclick="w(this.innerHTML)">5</button>
+    <button onclick="w(this.innerHTML)">6</button>
+    <button onclick="w(this.innerHTML)">7</button>
+    <button onclick="w(this.innerHTML)">8</button>
+    <button onclick="w(this.innerHTML)">9</button>
+    <button onclick="w(this.innerHTML)">0</button>
+    <button onclick="w(this.innerHTML)">.</button>
+    <button id="e">Enter</button>
+  </div>
+  <div id="operations">
+    <button onclick="add()">+</button>
+    <button onclick="subtract()">-</button>
+    <button onclick="multiply()">x</button>
+    <button onclick="divide()">÷</button>
+  </div>
+</div>
+<script>
+var store = document.getElementsByTagName("input")[0];
+var e = document.getElementById("e");
+var answer;
+
+document.body.onkeyup = function(e){  
+    if (e.key == "Backspace") {
+        d();
+    }
+}
+function d() {
+store.value = "";
+store.placeholder = "Cleared";
+}
+function w(num) {
+store.value = store.value + num;
+}
+//operations 
+function add() {
+var x = store.value;
+store.value = "";
+store.placeholder = x + " +";
+e.onclick = function() {
+var y = store.value;
+var answer = (+x) + (+y);
+store.value = answer;
+}
+}
+
+function subtract() {
+var x = store.value;
+store.value = "";
+store.placeholder = x + " -";
+e.onclick = function() {
+var y = store.value;
+var answer = (+x) - (+y);
+store.value = answer;
+}
+}
+
+function multiply() {
+var x = store.value;
+store.value = "";
+store.placeholder = x + " x";
+e.onclick = function() {
+var y = store.value;
+var answer = (+x) * (+y);
+store.value = answer;
+}
+}
+
+function divide() {
+var x = store.value;
+store.value = "";
+store.placeholder = x + " ÷";
+e.onclick = function() {
+var y = store.value;
+var answer = (+x) / (+y);
+store.value = answer;
+}
+}
+
+//check for error
+setInterval(function(){
+if (store.value == "NaN") {
+store.value = "";
+store.placeholder = "Calculation error"
+}
+},100);
+</script>
+</body>
+</html>

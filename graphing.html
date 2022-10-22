@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Graphing Calculator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+body {
+  background: #202124;
+}
+* {
+  color: #8ab4f7;
+  font-family: 'Rubik', sans-serif;
+  outline: none;
+}
+div, button {
+  user-select: none;
+  -webkit-user-select: none;
+}
+input {
+  width: 245px;
+  height: 50px;
+  padding: 0px;
+  background: #303134;
+  user-select: auto;
+  -webkit-user-select: auto;
+  border: none;
+  color: #8ab4f7;
+  cursor: auto;
+}
+input::selection {
+  background: #8ab4f7;
+  color: #202124;
+}
+
+button {
+  height: 50px;
+  width: 50px;
+  border: none;
+  border-radius: 0px;
+  color: #303134;
+  background: #8ab4f7;
+  padding: 0px;
+  margin: 0px;
+  cursor: pointer;
+}
+button:hover {
+  background: #303134;
+  color: #8ab4f7;
+}
+#plane {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  background: #303134;
+  overflow: hidden;
+  margin: -200px -200px;
+}
+#vert {
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  height: 100%;
+  width: 1px;
+  margin-left: -0.5px;
+  background: #8ab4f7;
+  opacity: 0.5;
+}
+#horz {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  height: 1px;
+  width: 100%;
+  margin-top: -0.5px;
+  background: #8ab4f7;
+  opacity: 0.5;
+}
+#quadrant {
+  position: absolute;
+  top: 0px;
+  left: 200px;
+  height: 200px;
+  width: 200px;
+  background: transparent;
+}
+#quadrant div {
+  background: #8ab4f7;
+  width: 2px;
+  height:2px;
+  margin: -1px -1px;
+}
+#quadrant div:hover {
+transform: scale(5);
+}
+</style>
+</head>
+<body>
+<input type="text" autocomplete="off" placeholder="Enter equation">
+<button onclick="setInterval(graph,0)">Graph</button>
+
+<div id="plane">
+  <div id="vert"></div>
+  <div id="horz"></div>
+  <div id="quadrant"></div>
+</div>
+<script>
+var input = document.getElementsByTagName("input")[0];
+var quadrant = document.getElementById("quadrant");
+var x = -200;
+
+function graph() {
+  if (input.value.indexOf("^") != -1) {
+    quadratic();
+  } else {
+    linear();
+  }
+}
+
+function linear() {
+  var equation = input.value.toLowerCase();
+  var slope = equation.split("=")[1].split("x")[0];
+  var pre = equation.split("x")[1].length;
+  var yInt = equation.slice(-pre);
+  var y = (x * +slope) + (+yInt);
+  x++;
+  var a = document.createElement("div");
+  a.style.position = "absolute";
+  a.style.left = x + "px";
+  a.style.bottom = y + "px";
+  a.title = "(" + (x-1) + "," + y + ")";
+  quadrant.appendChild(a);
+}
+function quadratic() {
+  var equation = input.value.toLowerCase();
+  var vertStretch = equation.split("=")[1].split("(")[0];
+  var horzStretch = equation.split("(")[1].split("x")[0];
+  var horz = equation.split("(")[1].split("x")[1].split(")")[0];
+    if (equation.split("^")[1].indexOf("+") != -1) {
+      var exp = equation.split("^")[1].split("+")[0];
+      var pre = equation.split("^")[1].split("+")[1].length;
+      var vert = equation.slice(-pre);
+    } else {
+      var exp = equation.split("^")[1].split("-")[0];
+      var pre = equation.split("^")[1].split("-")[1].length;
+      var vert = -(equation.slice(-pre));
+    }
+  var y = ((+vertStretch) * ((x + (+horz)) ** (+exp))) + (+vert);
+  x++;
+  var a = document.createElement("div");
+  a.style.position = "absolute";
+  a.style.left = x + "px";
+  a.style.bottom = y + "px";
+  a.title = "(" + (x-1) + "," + y + ")";
+  quadrant.appendChild(a);
+}
+</script>
+</body>
+</html>
