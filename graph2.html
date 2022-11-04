@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Graphing Calculator | Zoom, high resolutiony</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+body {
+  background: #202124;
+}
+* {
+  color: #8ab4f7;
+  font-family: 'Rubik', sans-serif;
+  outline: none;
+}
+div, button {
+  user-select: none;
+  -webkit-user-select: none;
+}
+input {
+  width: 245px;
+  height: 50px;
+  padding: 0px;
+  background: #303134;
+  user-select: auto;
+  -webkit-user-select: auto;
+  border: none;
+  color: #8ab4f7;
+  cursor: auto;
+}
+input::selection {
+  background: #8ab4f7;
+  color: #202124;
+}
+
+button {
+  height: 50px;
+  width: 50px;
+  border: none;
+  border-radius: 0px;
+  color: #303134;
+  background: #8ab4f7;
+  padding: 0px;
+  margin: 0px;
+  cursor: pointer;
+}
+button:hover {
+  background: #303134;
+  color: #8ab4f7;
+}
+#plane {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  background: #303134;
+  overflow: hidden;
+  margin: -200px -200px;
+}
+#vert {
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  height: 100%;
+  width: 1px;
+  margin-left: -0.5px;
+  background: #8ab4f7;
+  opacity: 0.5;
+}
+#horz {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  height: 1px;
+  width: 100%;
+  margin-top: -0.5px;
+  background: #8ab4f7;
+  opacity: 0.5;
+}
+#quadrant {
+  position: absolute;
+  top: 0px;
+  left: 200px;
+  height: 200px;
+  width: 200px;
+  background: transparent;
+}
+#quadrant div {
+  background: #8ab4f7;
+  width: 2px;
+  height:2px;
+  margin: -1px -1px;
+}
+#quadrant div:hover {
+transform: scale(5);
+}
+</style>
+</head>
+<body>
+<input type="text" autocomplete="off" placeholder="Enter equation">
+<button onclick="begin()">Graph</button>
+
+<div id="plane">
+  <div id="vert"></div>
+  <div id="horz"></div>
+  <div id="quadrant"></div>
+</div>
+<script>
+var input = document.getElementsByTagName("input")[0];
+var quadrant = document.getElementById("quadrant");
+var x = -20;
+
+function begin() {
+var script = document.createElement("script");
+script.innerHTML = "function graph() {x=x+0.01; var y = " + input.value.split("=")[1] + "; var a = document.createElement('div'); a.style.position = 'absolute'; a.style.left = (x*10) + 'px'; a.style.bottom = (y*10) + 'px'; quadrant.appendChild(a);}";
+document.body.appendChild(script);
+setInterval(graph, 0);
+}
+</script>
+</body>
+</html>
