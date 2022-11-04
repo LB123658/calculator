@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -98,7 +100,7 @@ transform: scale(5);
 </head>
 <body>
 <input type="text" autocomplete="off" placeholder="Enter equation">
-<button onclick="setInterval(graph,0)">Graph</button>
+<button onclick="begin()">Graph</button>
 
 <div id="plane">
   <div id="vert"></div>
@@ -110,50 +112,11 @@ var input = document.getElementsByTagName("input")[0];
 var quadrant = document.getElementById("quadrant");
 var x = -200;
 
-function graph() {
-  if (input.value.indexOf("^") != -1) {
-    quadratic();
-  } else {
-    linear();
-  }
-}
-
-function linear() {
-  var equation = input.value.toLowerCase();
-  var slope = equation.split("=")[1].split("x")[0];
-  var pre = equation.split("x")[1].length;
-  var yInt = equation.slice(-pre);
-  var y = (x * +slope) + (+yInt);
-  x++;
-  var a = document.createElement("div");
-  a.style.position = "absolute";
-  a.style.left = x + "px";
-  a.style.bottom = y + "px";
-  a.title = "(" + (x-1) + "," + y + ")";
-  quadrant.appendChild(a);
-}
-function quadratic() {
-  var equation = input.value.toLowerCase();
-  var vertStretch = equation.split("=")[1].split("(")[0];
-  var horzStretch = equation.split("(")[1].split("x")[0];
-  var horz = equation.split("(")[1].split("x")[1].split(")")[0];
-    if (equation.split("^")[1].indexOf("+") != -1) {
-      var exp = equation.split("^")[1].split("+")[0];
-      var pre = equation.split("^")[1].split("+")[1].length;
-      var vert = equation.slice(-pre);
-    } else {
-      var exp = equation.split("^")[1].split("-")[0];
-      var pre = equation.split("^")[1].split("-")[1].length;
-      var vert = -(equation.slice(-pre));
-    }
-  var y = ((+vertStretch) * ((x + (+horz)) ** (+exp))) + (+vert);
-  x++;
-  var a = document.createElement("div");
-  a.style.position = "absolute";
-  a.style.left = x + "px";
-  a.style.bottom = y + "px";
-  a.title = "(" + (x-1) + "," + y + ")";
-  quadrant.appendChild(a);
+function begin() {
+var script = document.createElement("script");
+script.innerHTML = "function graph() {x++; var y = " + input.value.split("=")[1] + "; var a = document.createElement('div'); a.style.position = 'absolute'; a.style.left = x + 'px'; a.style.bottom = y + 'px'; a.title = '(' + x + ',' + y + ')'; quadrant.appendChild(a);}";
+document.body.appendChild(script);
+setInterval(graph, 0);
 }
 </script>
 </body>
